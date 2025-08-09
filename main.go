@@ -50,6 +50,7 @@ func init() {
 	cmds.Register("follow", commands.MiddlewareLoggedIn(commands.HandlerFollow))
 	cmds.Register("following", commands.MiddlewareLoggedIn(commands.HandlerFollowing))
 	cmds.Register("unfollow", commands.MiddlewareLoggedIn(commands.HandlerUnfollow))
+	cmds.Register("browse", commands.MiddlewareLoggedIn(commands.HandlerBrowse))
 }
 
 func main() {

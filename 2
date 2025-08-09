@@ -4,14 +4,12 @@ package commands
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/lib/pq"
 
 	db "github.com/mmycroft/gator/internal/database"
 	fd "github.com/mmycroft/gator/internal/feed"
@@ -158,7 +156,8 @@ func HandlerAgg(state *st.State, command Command) error {
 			post, err := state.Db.CreatePost(ctx, postParams)
 			if err != nil {
 				var pqErr *pq.Error
-				if errors.As(err, &pqErr) && pqErr.Code == pq.ErrorCode("23505") {
+				uniqueViolation := "23505"
+				if errors.As(err, &pqErr) && pqErr.Code == uniqueViolation {
 					fmt.Printf("Post with URL %s already exists\n", item.Link)
 					continue
 

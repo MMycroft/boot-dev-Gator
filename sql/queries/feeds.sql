@@ -28,5 +28,17 @@ SELECT
 FROM feeds
 JOIN users ON users.id = feeds.user_id;
 
+-- name: MarkFeedFetched :exec
+UPDATE feeds
+SET updated_at = NOW(),
+    last_fetched_at = NOW()
+WHERE feeds.id = $1;
+
+-- name: GetNextFeedToFetch :one
+SELECT *
+FROM feeds
+ORDER BY feeds.updated_at ASC NULLS FIRST
+LIMIT 1;
+
 -- name: DeleteFeeds :exec
 DELETE FROM feeds;
